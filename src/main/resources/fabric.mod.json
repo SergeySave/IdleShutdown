@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "id": "idleshutdown",
+  "version": "${version}",
+  "name": "Idle Shutdown",
+  "description": "Automatically shutdown the server when there has been a lack of activity.",
+  "contact": {
+    "email": "me@sergeysav.com",
+    "homepage": "sergeysav.com",
+    "issues": "https://github.com/SergeySave/IdleShutdown/issues",
+    "sources": "https://github.com/SergeySave/IdleShutdown"
+  },
+  "authors": [
+    "Sergey Savelyev"
+  ],
+  "environment": "server",
+  "entrypoints": {
+    "main": [
+      {
+        "adapter": "kotlin",
+        "value": "com.sergeysav.idleshutdown.IdleShutdown"
+      }
+    ],
+    "server": [
+      {
+        "adapter": "kotlin",
+        "value": "com.sergeysav.idleshutdown.IdleShutdownServer"
+      }
+    ]
+  },
+  "jars": [],
+  "mixins": [
+    "idleshutdown.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.8.7",
+    "fabric": "*",
+    "fabric-language-kotlin": ">=1.4.0",
+    "minecraft": "1.16.x"
+  },
+  "license": "MIT"
+}
