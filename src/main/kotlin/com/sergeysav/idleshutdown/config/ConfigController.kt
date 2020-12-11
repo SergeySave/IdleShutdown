@@ -44,6 +44,7 @@ object ConfigController {
             FileReader(configFile).use {
                 state = gson.fromJson(it, ConfigData::class.java)
             }
+            state.validate()
         } catch (ex: FileNotFoundException) {
             IdleShutdown.log.info("Config file not found. Creating default.")
             save()
@@ -57,7 +58,7 @@ object ConfigController {
      *
      * The config data to save will be retrieved from [state]
      */
-    private fun save() {
+    fun save() {
         if (!configFolder.exists()) configFolder.mkdirs()
         if (!configFile.exists()) configFile.createNewFile()
         FileWriter(configFile, false).use {

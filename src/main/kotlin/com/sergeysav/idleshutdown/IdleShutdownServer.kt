@@ -1,7 +1,9 @@
 package com.sergeysav.idleshutdown
 
+import com.sergeysav.idleshutdown.command.IdleShutdownCommand
 import com.sergeysav.idleshutdown.shutdown.ShutdownController
 import net.fabricmc.api.DedicatedServerModInitializer
+import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback
 
 /**
  * This is the server side entrypoint for IdleShutdown.
@@ -19,6 +21,12 @@ object IdleShutdownServer : DedicatedServerModInitializer {
 
     override fun onInitializeServer() {
         shutdownController = ShutdownController()
+
+        CommandRegistrationCallback.EVENT.register(CommandRegistrationCallback { dispatcher, _ ->
+            // second parameter is true when running on a dedicated server, always true
+            IdleShutdownCommand.register(dispatcher, shutdownController)
+        })
+
         IdleShutdown.log.info("IdleShutdown Server Loaded")
     }
 }

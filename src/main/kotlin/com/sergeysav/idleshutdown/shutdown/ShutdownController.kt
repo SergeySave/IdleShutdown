@@ -20,7 +20,8 @@ class ShutdownController {
      * The current task. It is kept track of in order to be cancelled and removed from the timer before the next task
      * is created (if needed)
      */
-    private var task: ShutdownTask? = null
+    var task: ShutdownTask? = null
+        private set
 
     /**
      * The dedicated server on which this mod is currently running.

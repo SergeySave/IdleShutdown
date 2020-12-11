@@ -24,6 +24,7 @@ object IdleShutdown : ModInitializer {
 
     override fun onInitialize() {
         ConfigController.load()
+        ConfigController.save() // Ensure the config file is up-to-date
         log.info("IdleShutdown Loaded")
     }
 }
