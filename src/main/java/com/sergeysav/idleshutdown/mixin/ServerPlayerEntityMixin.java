@@ -4,9 +4,7 @@ import com.sergeysav.idleshutdown.IdleShutdown;
 import com.sergeysav.idleshutdown.IdleShutdownServer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -23,13 +21,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 abstract class ServerPlayerEntityMixin {
 
     /**
-     * This shadow allows access to ServerPlayerEntity's server field.
-     */
-    @Shadow
-    @Final
-    private MinecraftServer server;
-
-    /**
      * This method is injected at the bottom of ServerPlayerEntity's constructor.
      * This then notifies us that a player has joined the server.
      *
@@ -37,7 +28,7 @@ abstract class ServerPlayerEntityMixin {
      */
     @Inject(method = "<init>(Lnet/minecraft/server/MinecraftServer;Lnet/minecraft/server/world/ServerWorld;Lcom/mojang/authlib/GameProfile;Lnet/minecraft/server/network/ServerPlayerInteractionManager;)V", at = @At("RETURN"))
     public void onConstructor(CallbackInfo info) {
-        MinecraftServer server = this.server;
+        MinecraftServer server = ((ServerPlayerEntity)(Object)this).server;
         if (server == null) {
             IdleShutdown.INSTANCE.getLog().warn("ServerPlayerEntity missing server.");
         } else {
@@ -54,7 +45,7 @@ abstract class ServerPlayerEntityMixin {
      */
     @Inject(method = "onDisconnect()V", at = @At("RETURN"))
     public void onDisconnect(CallbackInfo info) {
-        MinecraftServer server = this.server;
+        MinecraftServer server = ((ServerPlayerEntity)(Object)this).server;
         if (server == null) {
             IdleShutdown.INSTANCE.getLog().warn("ServerPlayerEntity missing server.");
         } else {
